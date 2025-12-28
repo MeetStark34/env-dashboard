@@ -46,15 +46,17 @@ function StatCard({
   unit: string;
 }) {
   return (
-    <div className="rounded-xl bg-[#0f1c24]/80 border border-cyan-400/20 p-4 flex gap-3 items-center">
-      <Icon className="text-cyan-400 w-6 h-6" />
+    <div className="rounded-xl bg-[#0a1319]/60 border border-cyan-400/10 p-5 flex gap-4 items-center backdrop-blur-sm">
+      <div className="bg-cyan-400/10 p-3 rounded-lg">
+        <Icon className="text-cyan-400 w-6 h-6" />
+      </div>
       <div>
-        <div className="text-xs text-cyan-300 uppercase tracking-wide">
+        <div className="text-sm text-cyan-300/80 mb-1">
           {label}
         </div>
-        <div className="text-xl font-semibold text-white">
+        <div className="text-2xl font-bold text-white">
           {value}
-          <span className="text-sm text-cyan-400 ml-1">{unit}</span>
+          <span className="text-sm text-cyan-400/60 ml-1 font-normal">{unit}</span>
         </div>
       </div>
     </div>
@@ -79,30 +81,48 @@ function CountryPanel<T extends string>({
   metrics: Metrics;
 }) {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 bg-[#0a1319]/40 border border-cyan-400/20 rounded-2xl p-6 backdrop-blur-sm">
       {/* Header */}
-      <div className="flex items-center gap-3 text-white text-lg font-semibold">
+      <div className="flex items-center gap-3 text-white text-xl font-bold tracking-wide">
         <span className="text-2xl">{flag}</span>
         {title}
+        <span className="text-2xl">{flag}</span>
       </div>
 
       {/* Dropdown */}
-      <div className="relative max-w-xs">
-        <MapPin className="absolute left-3 top-3 w-4 h-4 text-cyan-400" />
+      <div className="relative">
+        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400" />
         <select
           value={selected}
           onChange={(e) => onChange(e.target.value as T)}
-          className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#0f1c24] border border-cyan-400/30 text-white focus:outline-none"
+          className="w-full pl-12 pr-4 py-3 rounded-xl bg-[#0a1319]/80 border border-cyan-400/30 text-white text-base focus:outline-none focus:border-cyan-400/60 appearance-none cursor-pointer"
         >
           {locations.map((l) => (
             <option key={l}>{l}</option>
           ))}
         </select>
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-cyan-400">▼</div>
       </div>
 
-      {/* Map Placeholder */}
-      <div className="h-48 rounded-xl bg-gradient-to-br from-cyan-500/30 to-transparent border border-cyan-400/20 flex items-center justify-center text-cyan-300 text-sm">
-        MAP VISUAL
+      {/* Map Visual */}
+      <div className="h-64 rounded-xl bg-[#0a1319]/80 border border-cyan-400/10 flex items-center justify-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent"></div>
+        {title === "INDIA" ? (
+          <svg viewBox="0 0 300 350" className="w-full h-full p-8" style={{ filter: 'drop-shadow(0 0 20px rgba(34, 211, 238, 0.3))' }}>
+            <path d="M150,20 L180,40 L200,35 L210,50 L225,55 L235,70 L245,85 L250,105 L255,125 L260,145 L258,165 L252,185 L245,200 L235,215 L220,225 L200,232 L180,235 L160,238 L140,235 L120,230 L100,222 L85,210 L72,195 L65,178 L60,160 L58,140 L60,120 L65,100 L72,82 L82,65 L95,50 L110,38 L130,28 L150,20 Z" 
+                  fill="rgba(34, 211, 238, 0.4)" 
+                  stroke="rgba(34, 211, 238, 0.8)" 
+                  strokeWidth="1.5"/>
+          </svg>
+        ) : (
+          <svg viewBox="0 0 300 320" className="w-full h-full p-8" style={{ filter: 'drop-shadow(0 0 20px rgba(34, 211, 238, 0.3))' }}>
+            <path d="M120,30 L140,25 L155,28 L170,35 L185,42 L195,55 L205,70 L215,85 L220,100 L222,115 L220,130 L215,145 L210,160 L205,175 L198,190 L190,202 L180,212 L168,220 L155,225 L142,228 L128,228 L115,225 L102,220 L90,212 L80,202 L72,190 L66,176 L62,162 L60,148 L60,134 L62,120 L66,106 L72,92 L80,78 L90,65 L102,53 L115,43 L120,30 Z" 
+                  fill="rgba(34, 211, 238, 0.4)" 
+                  stroke="rgba(34, 211, 238, 0.8)" 
+                  strokeWidth="1.5"/>
+            <circle cx="140" cy="95" r="3" fill="rgba(34, 211, 238, 0.9)"/>
+          </svg>
+        )}
       </div>
 
       {/* Stats */}
@@ -140,20 +160,23 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#07141d] to-black p-8 text-white">
+    <div className="min-h-screen bg-[#050a0f] p-6 text-white">
       {/* Header */}
-      <div className="text-center mb-10">
-        <div className="text-sm text-cyan-400 flex items-center justify-center gap-2 mb-2">
+      <div className="text-center mb-8">
+        <div className="text-cyan-400/60 text-sm mb-3 flex items-center justify-center gap-2">
           <Cloud className="w-4 h-4" />
-          {time.toLocaleString()}
+          {time.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} - {time.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
         </div>
-        <h1 className="text-3xl font-bold tracking-widest">
-          ENVIRONMENTAL MONITOR
-        </h1>
+        <div className="w-16 h-16 mx-auto mb-4 relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-cyan-600 blur-xl opacity-50"></div>
+          <div className="relative bg-gradient-to-br from-[#0a1a24] to-[#0f2533] rounded-xl border border-cyan-400/30 p-3 flex items-center justify-center">
+            <div className="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-cyan-400"></div>
+          </div>
+        </div>
       </div>
 
       {/* Dashboard */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 rounded-3xl bg-[#07141d]/70 border border-cyan-400/20 p-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         <CountryPanel
           title="INDIA"
           flag="🇮🇳"
