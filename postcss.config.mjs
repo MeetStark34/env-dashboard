@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-const config = {
-  plugins: {
-    "@tailwindcss/postcss": {},
-  },
-};
-
-export default config;
-=======
 /**
  * PostCSS Configuration
  *
@@ -22,4 +13,3 @@ export default config;
  * Otherwise, you can leave this file empty.
  */
 export default {}
->>>>>>> dbcac2f (Initial commit)
